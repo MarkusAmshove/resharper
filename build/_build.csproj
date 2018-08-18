@@ -7,24 +7,28 @@
     <RootNamespace></RootNamespace>
     <IsPackable>False</IsPackable>
     <NoWarn>CS0649;CS0169</NoWarn>
-    
-    <!-- NUKE CONFIGURATION -->
-    <NukeVersion>0.5.0</NukeVersion>
-    <NukeCodeGeneration>False</NukeCodeGeneration>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NuGet.CommandLine" Version="4.5.1" />
-    <PackageReference Include="Nuke.CodeGeneration" Version="$(NukeVersion)" Condition="'$(NukeCodeGeneration)' == 'True'" />
+    <PackageReference Include="Nuke.Common" Version="0.6.2" />
     <PackageReference Include="GitVersion.CommandLine" Version="4.0.0-beta0011" />
-    <PackageReference Include="Nuke.Common" Version="$(NukeVersion)" />
     <PackageReference Include="NUnit.ConsoleRunner" Version="3.8.0" />
     <PackageReference Include="NUnit.Extension.NUnitV2Driver" Version="3.7.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <NukeMetadata Include="**/*.json" Exclude="bin/**;obj/**" />
-    <None Remove="*.csproj.DotSettings;*.ref.*.txt" />
+    <None Remove="*.csproj.DotSettings" />
+
+    <None Include="..\build.ps1" />
+    <None Include="..\build.sh" />
+    <None Include="..\.nuke" />
+    <None Include="..\global.json" Condition="Exists('..\global.json')" />
+    <None Include="..\nuget.config" Condition="Exists('..\nuget.config')" />
+    <None Include="..\Jenkinsfile" Condition="Exists('..\Jenkinsfile')" />
+    <None Include="..\appveyor.yml" Condition="Exists('..\appveyor.yml')" />
+    <None Include="..\.travis.yml" Condition="Exists('..\.travis.yml')" />
+    <None Include="..\GitVersion.yml" Condition="Exists('..\GitVersion.yml')" />
   </ItemGroup>
 
 </Project>
