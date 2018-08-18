@@ -61,7 +61,7 @@ class Build : NukeBuild
     Target Model => _ => _
         .Executes(() =>
         {
-            GradleTask("generateModel");
+            GradleTask("rdgen");
         });
 
     Target Compile => _ => _

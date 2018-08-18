@@ -19,7 +19,6 @@ apply plugin: 'com.jetbrains.rdgen'
 
 ext.repoRoot = new File("..").canonicalFile
 ext.isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
-ext.RdGen = com.jetbrains.rider.generator.gradle.RdgenTask
 ext.rdLibDirectory = new File(repoRoot, "rider/build/riderRD-2018.2-SNAPSHOT/lib/rd")
 
 wrapper {
@@ -42,34 +41,31 @@ if (ext.has("password"))
 
 version ext.version
 
-task generateModel(type: RdGen) {
-
+rdgen {
     def modelDir = new File(repoRoot, "rider/protocol/src/main/kotlin/model")
     def csOutput = new File(repoRoot, "resharper/RdNukeProtocol")
     def ktOutput = new File(repoRoot, "rider/src/main/kotlin/com/jetbrains/rider/plugins/nuke/RdNukeProtocol")
 
-    params {
-        verbose = true
-        classpath "$rdLibDirectory/rider-model.jar"
-        sources "$modelDir/rider"
-        hashFolder = 'build/rdgen/rider'
-        packages = "model.rider"
+    verbose = true
+    classpath "$rdLibDirectory/rider-model.jar"
+    sources "$modelDir/rider"
+    hashFolder = 'build/rdgen/rider'
+    packages = "model.rider"
 
-        generator {
-            language = "kotlin"
-            transform = "asis"
-            root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
-            namespace = "com.jetbrains.rider.model"
-            directory = "$ktOutput"
-        }
+    generator {
+        language = "kotlin"
+        transform = "asis"
+        root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
+        namespace = "com.jetbrains.rider.model"
+        directory = "$ktOutput"
+    }
 
-        generator {
-            language = "csharp"
-            transform = "reversed"
-            root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
-            namespace = "JetBrains.Rider.Model"
-            directory = "$csOutput"
-        }
+    generator {
+        language = "csharp"
+        transform = "reversed"
+        root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
+        namespace = "JetBrains.Rider.Model"
+        directory = "$csOutput"
     }
 }
 
@@ -101,4 +97,11 @@ prepareSandbox {
         def file = file(f)
         from(file, { into "$intellij.pluginName/dotnet" })
     })
+
+    doLast {
+        dllFiles.forEach({ f ->
+            def file = file(f)
+            if (!file.exists()) throw new RuntimeException("File $file does not exist")
+        })
+    }
 }
