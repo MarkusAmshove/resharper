@@ -12,7 +12,6 @@ import com.jetbrains.rider.model.rdNukeModel
 import com.jetbrains.rider.model.runnableProjectsModel
 import com.jetbrains.rider.projectView.solution
 import com.jetbrains.rider.run.configurations.project.DotNetProjectConfiguration
-import com.jetbrains.rider.run.configurations.project.DotNetProjectConfigurationType
 import com.jetbrains.rider.util.idea.LifetimedProjectComponent
 
 class RunConfigurationManager(project: Project, private val runManager: RunManager) : LifetimedProjectComponent(project) {
@@ -50,7 +49,7 @@ class RunConfigurationManager(project: Project, private val runManager: RunManag
 
     private fun createAndAddConfiguration(name: String, projectFile: String, arguments: String): RunnerAndConfigurationSettings {
 
-        val configurationType = runManager.configurationFactories.single { it -> it is DotNetProjectConfigurationType }
+        val configurationType = runManager.configurationFactories.single { it -> it is NukeBuildTargetConfigurationType }
         val configurationFactory = configurationType.configurationFactories.first()
         val configuration = runManager.createRunConfiguration(name, configurationFactory)
         configuration.isTemporary = true
