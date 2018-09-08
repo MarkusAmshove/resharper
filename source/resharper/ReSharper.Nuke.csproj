@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ReSharper.Nuke.DotSettings" />
     <Compile Update="**\*.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
       <SubType>Code</SubType>

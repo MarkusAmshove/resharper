@@ -25,5 +25,6 @@
   </metadata>
   <files>
     <file src="bin\ReSharper.Nuke\$Configuration$\ReSharper.Nuke.dll" target="DotFiles" />
+    <file src="ReSharper.Nuke.DotSettings" target="DotFiles\Extensions\ReSharper.Nuke\settings" />
   </files>
 </package>

@@ -90,12 +90,16 @@ intellij {
 prepareSandbox {
     def dllFiles = [
         "../resharper/bin/Rider.Nuke/$BuildConfiguration/Rider.Nuke.dll",
-        "../resharper/bin/Rider.Nuke/$BuildConfiguration/Rider.Nuke.pdb"
+        "../resharper/bin/Rider.Nuke/$BuildConfiguration/Rider.Nuke.pdb",
+        "../resharper/ReSharper.Nuke.DotSettings"
     ]
 
     dllFiles.forEach({ f ->
         def file = file(f)
-        from(file, { into "$intellij.pluginName/dotnet" })
+        if (file.name.endsWith(".DotSettings"))
+            from(file, { into "$intellij.pluginName/dotnet/Extensions/ReSharper.Nuke/settings" })
+        else
+            from(file, { into "$intellij.pluginName/dotnet" })
     })
 
     doLast {
