@@ -96,7 +96,7 @@ namespace ReSharper.Nuke.Actions
         /// The text of the bulb action.
         /// </summary>
         public override string Text => !SkipDependencies
-            ? Debug ? "Debug" : "Run" + " target"
+            ? (Debug ? "Debug" : "Run") + " target"
             : "Without dependencies";
 
 #if RESHARPER
