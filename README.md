@@ -7,7 +7,8 @@
 
 - Gutter icons for target properties
 - Context actions for invoking targets in run and debug mode
-- Custom run configuration (Rider)
+- Custom run configurations (Rider)
+- Target snippet available via `ntarget`
 
  ## Contributing
 

@@ -20,11 +20,12 @@
   <description>
     <![CDATA[
 <p>NUKE is a cross-platform build automation system for C# developers.</p>
-
+<p>This plugin enables:</p>
 <ul>
   <li>Gutter icons for target properties</li>
   <li>Context actions for invoking targets in run and debug mode</li>
-  <li>Custom run configuration</li>
+  <li>Custom run configurations</li>
+  <li>Target snippet available via 'ntarget'</li>
 </ul>
 ]]>
   </description>
