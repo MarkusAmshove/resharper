@@ -10,27 +10,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed RunConfigurations to be unique per target and reuse program arguments
 
 ## [0.2.5] / 2018-06-06
-- Added support for Rider.
+- Added support for Rider
 
 ## [0.2.2] / 2018-05-18
-- Fixed code completion to not show private and instance methods.
+- Fixed code completion to not show private and instance methods
 
 ## [0.2.0] / 2018-05-02
-- Added code completion provider for `[Tool]`Tasks static methods.
-- Added quick-fix for missing static imports of tasks.
+- Added code completion provider for `[Tool]`Tasks static methods
+- Added quick-fix for missing static imports of tasks
 
 ## [0.1.11] / 2018-04-14
-- Fixed solution state after build execution.
+- Fixed solution state after build execution
 
 ## [0.1.7] / 2018-04-06
-- Fixed selection of startup project.
+- Fixed selection of startup project
 
 ## [0.1.5] / 2018-04-06
-- Fixed missing build before build execution. (#1)
-- Fixed restore of previous startup project. (#7)
+- Fixed missing build before build execution (#1)
+- Fixed restore of previous startup project (#7)
 
 ## [0.1.0] / 2018-02-26
-- Initial version.
+- Initial version
 
 [vNext]: https://github.com/nuke-build/resharper/compare/0.2.20...HEAD
 [0.2.20]: https://github.com/nuke-build/resharper/compare/0.2.5...0.2.20

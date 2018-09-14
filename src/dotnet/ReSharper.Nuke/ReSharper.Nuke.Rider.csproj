@@ -1,0 +1,51 @@
+﻿<Project>
+  
+  <PropertyGroup>
+    <LanguageTargets>$(MSBuildToolsPath)\Microsoft.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
+  
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <RootNamespace>ReSharper.Nuke</RootNamespace>
+    <DefineConstants>$(DefineConstants);RIDER</DefineConstants>
+  </PropertyGroup>
+  
+  <Import Project="..\Versions.props" />
+  
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Rider.SDK" Version="$(SdkVersion)">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Wave" Version="$(WaveVersion)" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Rider\Model" />
+    <Compile Remove="NukeApi.cs" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(OS)' != 'Unix'">
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    
+    <ThemedIconsXamlV3 Include="**\nuke-white.xaml">
+      <ThemeColumns>GrayDark</ThemeColumns>
+      <RemoveBackgroundElement>True</RemoveBackgroundElement>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ThemedIconsXamlV3>
+    <ThemedIconsXamlV3 Include="**\nuke-black.xaml">
+      <ThemeColumns>Color</ThemeColumns>
+      <RemoveBackgroundElement>True</RemoveBackgroundElement>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ThemedIconsXamlV3>
+  </ItemGroup>
+  
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  
+</Project>

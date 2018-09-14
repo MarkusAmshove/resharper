@@ -1,0 +1,58 @@
+﻿<Project>
+    
+  <PropertyGroup>
+    <LanguageTargets>$(MSBuildToolsPath)\Microsoft.CSharp.targets</LanguageTargets>
+  </PropertyGroup>
+    
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <IsPackable>True</IsPackable>
+    <DefineConstants>$(DefineConstants);RESHARPER</DefineConstants>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+  
+  <Import Project="..\Versions.props" />
+  
+  <ItemGroup>
+    <PackageReference Include="JetBrains.ReSharper.SDK" Version="$(SdkVersion)">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- TODO: https://github.com/NuGet/Home/issues/7154 -->
+    <PackageReference Include="Wave" Version="$(WaveVersion)" />
+    <PackageReference Include="EnvDTE80" Version="8.0.2" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Rider\**\*" />
+    <None Remove="Rider\**\*" />
+    <EmbeddedResource Remove="Rider\**\*" />
+    <Content Remove="Rider\**\*" />
+
+    <!--<Content Include="bin\ReSharper.Nuke\$(Configuration)\ReSharper.Nuke.*" PackagePath="dotFiles" Pack="true" />-->
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(OS)' != 'Unix'">
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+
+    <ThemedIconsXamlV3 Include="**\nuke-white.xaml">
+      <ThemeColumns>GrayDark</ThemeColumns>
+      <RemoveBackgroundElement>True</RemoveBackgroundElement>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ThemedIconsXamlV3>
+    <ThemedIconsXamlV3 Include="**\nuke-black.xaml">
+      <ThemeColumns>Color</ThemeColumns>
+      <RemoveBackgroundElement>True</RemoveBackgroundElement>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ThemedIconsXamlV3>
+  </ItemGroup>
+  
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+
+</Project>
