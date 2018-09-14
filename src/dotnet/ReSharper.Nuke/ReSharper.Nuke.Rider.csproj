@@ -24,8 +24,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Rider\Model" />
     <Compile Remove="NukeApi.cs" />
+    <EmbeddedResource Include="Settings/*.DotSettings" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(OS)' != 'Unix'">

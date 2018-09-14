@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
     
   <PropertyGroup>
     <LanguageTargets>$(MSBuildToolsPath)\Microsoft.CSharp.targets</LanguageTargets>
@@ -31,7 +31,7 @@
     <None Remove="Rider\**\*" />
     <EmbeddedResource Remove="Rider\**\*" />
     <Content Remove="Rider\**\*" />
-
+    <EmbeddedResource Include="Settings/*.DotSettings" />
     <!--<Content Include="bin\ReSharper.Nuke\$(Configuration)\ReSharper.Nuke.*" PackagePath="dotFiles" Pack="true" />-->
   </ItemGroup>
   
