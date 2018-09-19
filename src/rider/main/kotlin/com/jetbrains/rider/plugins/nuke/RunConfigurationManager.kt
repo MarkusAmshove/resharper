@@ -1,4 +1,4 @@
-package nuke
+package com.jetbrains.rider.plugins.nuke
 
 import com.intellij.execution.DefaultExecutionTarget
 import com.intellij.execution.ExecutionManager

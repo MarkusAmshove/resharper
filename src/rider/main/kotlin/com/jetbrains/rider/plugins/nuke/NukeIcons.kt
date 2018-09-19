@@ -1,4 +1,4 @@
-package nuke
+package com.jetbrains.rider.plugins.nuke
 
 import com.intellij.openapi.util.IconLoader
 

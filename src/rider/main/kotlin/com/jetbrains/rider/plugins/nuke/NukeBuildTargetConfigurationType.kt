@@ -1,4 +1,4 @@
-package nuke
+package com.jetbrains.rider.plugins.nuke
 
 import com.intellij.execution.RunManager
 import com.intellij.execution.configurations.ConfigurationTypeBase
@@ -13,7 +13,7 @@ class NukeBuildTargetConfigurationType
         "NukeBuildTarget",
         "NUKE",
         "NUKE target execution configuration",
-        NukeIcons.Icon),
+    NukeIcons.Icon),
         IRunnableProjectConfigurationType,
         IRunConfigurationWithDefault {
     private val factoryConfiguration: DotNetProjectConfigurationFactory = DotNetProjectConfigurationFactory(this)

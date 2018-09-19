@@ -9,16 +9,16 @@
   <depends>com.intellij.modules.rider</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <configurationType implementation="nuke.NukeBuildTargetConfigurationType"/>
+    <configurationType implementation="com.jetbrains.rider.plugins.nuke.NukeBuildTargetConfigurationType"/>
   </extensions>
   <project-components>
     <component>
-      <implementation-class>nuke.RunConfigurationManager</implementation-class>
+      <implementation-class>com.jetbrains.rider.plugins.nuke.RunConfigurationManager</implementation-class>
     </component>
   </project-components>
 
   <actions>
-    <action id="ExecuteBuildTarget" class="nuke.ExecuteBuildTargetAction"
+    <action id="ExecuteBuildTarget" class="com.jetbrains.rider.plugins.nuke.ExecuteBuildTargetAction"
             text="Execute Build Target" description="Locate current item in the Solution/Project View">
     </action>
   </actions>
