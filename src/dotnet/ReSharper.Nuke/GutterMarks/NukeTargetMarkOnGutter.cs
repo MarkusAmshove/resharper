@@ -10,23 +10,21 @@ using JetBrains.Application.UI.Controls.BulbMenu.Anchors;
 using JetBrains.Application.UI.Controls.BulbMenu.Items;
 using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Feature.Services.Intentions;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
-using JetBrains.UI.Icons;
 using JetBrains.Util;
 using ReSharper.Nuke.Actions;
-using ReSharper.Nuke.Highlightings;
+using ReSharper.Nuke.GutterMarks;
 using ReSharper.Nuke.Resources;
 using ReSharper.Nuke.Utility;
 
 [assembly: RegisterConfigurableHighlightingsGroup(NukeTargetMarkOnGutter.Nuke, "Nuke")]
 
-namespace ReSharper.Nuke.Highlightings
+namespace ReSharper.Nuke.GutterMarks
 {
     [StaticSeverityHighlighting(Severity.INFO,
         HighlightingGroupIds.GutterMarksGroup,

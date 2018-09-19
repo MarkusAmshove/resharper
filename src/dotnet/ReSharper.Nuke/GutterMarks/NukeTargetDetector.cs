@@ -6,13 +6,11 @@ using System;
 using System.Linq;
 using JetBrains.ReSharper.Daemon.Stages.Dispatcher;
 using JetBrains.ReSharper.Feature.Services.Daemon;
-using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
-using ReSharper.Nuke.Highlightings;
 using ReSharper.Nuke.Utility;
 
-namespace ReSharper.Nuke.Analysis
+namespace ReSharper.Nuke.GutterMarks
 {
     [ElementProblemAnalyzer(typeof(IPropertyDeclaration), HighlightingTypes = new[] { typeof(NukeTargetMarkOnGutter) })]
     public class NukeTargetDetector : ElementProblemAnalyzer<IPropertyDeclaration>

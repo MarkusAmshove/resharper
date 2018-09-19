@@ -30,7 +30,6 @@ using JetBrains.TextControl;
 using JetBrains.TextControl.DataContext;
 using JetBrains.Util;
 using ReSharper.Nuke.GutterMarks;
-using ReSharper.Nuke.Highlightings;
 using ReSharper.Nuke.Resources;
 using ReSharper.Nuke.Utility;
 

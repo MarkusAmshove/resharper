@@ -17,7 +17,6 @@ using JetBrains.TextControl.DocumentMarkup;
 using JetBrains.UI.Icons;
 using JetBrains.Util;
 using ReSharper.Nuke.GutterMarks;
-using ReSharper.Nuke.Highlightings;
 using ReSharper.Nuke.Resources;
 
 [assembly:
