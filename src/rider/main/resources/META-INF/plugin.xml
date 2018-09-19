@@ -17,6 +17,12 @@
     </component>
   </project-components>
 
+  <actions>
+    <action id="ExecuteBuildTarget" class="nuke.ExecuteBuildTargetAction"
+            text="Execute Build Target" description="Locate current item in the Solution/Project View">
+    </action>
+  </actions>
+  
   <description>
     <![CDATA[
 <p>NUKE is a cross-platform build automation system for C# developers.</p>

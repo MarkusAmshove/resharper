@@ -21,16 +21,16 @@ using ReSharper.Nuke.Highlightings;
 using ReSharper.Nuke.Resources;
 
 [assembly:
-    RegisterHighlighter(NukeHighlitingAttributeIds.NukeGutterIconAttribute,
+    RegisterHighlighter(NukeTargetMarkOnGutter.NukeGutterIconAttribute,
         EffectType = EffectType.GUTTER_MARK,
-        GutterMarkType = typeof(NukeGutterMark),
+        GutterMarkType = typeof(NukeTargetGutterMark),
         Layer = HighlighterLayer.SYNTAX + 1)]
 
 namespace ReSharper.Nuke.GutterMarks
 {
-    public class NukeGutterMark : IconGutterMark
+    public class NukeTargetGutterMark : IconGutterMark
     {
-        public NukeGutterMark()
+        public NukeTargetGutterMark()
             : base(LogoThemedIcons.NukeLogo.Id)
         {
         }
@@ -47,7 +47,7 @@ namespace ReSharper.Nuke.GutterMarks
             var textControl = textControlManager.FocusedTextControl.Value;
 
             var daemon = solution.GetComponent<IDaemon>();
-            if (daemon.GetHighlighting(highlighter) is NukeMarkOnGutter highlighting)
+            if (daemon.GetHighlighting(highlighter) is NukeTargetMarkOnGutter highlighting)
             {
                 using (CompilationContextCookie.GetExplicitUniversalContextIfNotSet())
                     return highlighting.GetBulbMenuItems(solution, textControl, (InvisibleAnchor) Anchor.NotNull());

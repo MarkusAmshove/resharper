@@ -13,27 +13,31 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Feature.Services.Bulbs;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Feature.Services.Intentions;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl;
 using JetBrains.UI.Icons;
 using JetBrains.Util;
 using ReSharper.Nuke.Actions;
+using ReSharper.Nuke.Highlightings;
 using ReSharper.Nuke.Resources;
 using ReSharper.Nuke.Utility;
+
+[assembly: RegisterConfigurableHighlightingsGroup(NukeTargetMarkOnGutter.Nuke, "Nuke")]
 
 namespace ReSharper.Nuke.Highlightings
 {
     [StaticSeverityHighlighting(Severity.INFO,
         HighlightingGroupIds.GutterMarksGroup,
         OverlapResolve = OverlapResolveKind.NONE,
-        AttributeId = NukeHighlitingAttributeIds.NukeGutterIconAttribute)]
-    public class NukeMarkOnGutter : IHighlighting, INukeHighlighting
+        AttributeId = NukeGutterIconAttribute)]
+    public class NukeTargetMarkOnGutter : IHighlighting
     {
         [CanBeNull] private readonly ITreeNode _myElement;
         private readonly DocumentRange _myRange;
 
-        public NukeMarkOnGutter([CanBeNull] ITreeNode element, DocumentRange range, string tooltip)
+        public NukeTargetMarkOnGutter([CanBeNull] ITreeNode element, DocumentRange range, string tooltip)
         {
             _myElement = element;
             _myRange = range;
@@ -47,6 +51,7 @@ namespace ReSharper.Nuke.Highlightings
 
         public IEnumerable<BulbMenuItem> GetBulbMenuItems(ISolution solution, ITextControl textControl, IAnchor gutterMarkAnchor)
         {
+            var project = textControl.Document.GetPsiSourceFile(solution)?.GetProject();
             var propertyDeclaration = _myElement as IPropertyDeclaration;
             var property = propertyDeclaration?.DeclaredElement;
 
@@ -56,32 +61,38 @@ namespace ReSharper.Nuke.Highlightings
 
             if (property.IsNukeBuildTarget())
             {
-                return CreateRunTargetMenu(propertyName, gutterMarkAnchor, solution, textControl);
+                return CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl);
             }
 
             return EmptyList<BulbMenuItem>.Enumerable;
         }
 
-        private BulbMenuItem CreateItem(IBulbAction bulbAction, ISolution solution, ITextControl textControl, IAnchor anchor)
+        public static BulbMenuItem[] CreateRunTargetMenu(IProject project, string targetName, IAnchor gutterMarkAnchor, ISolution solution, ITextControl textControl)
         {
-            return new BulbMenuItem(new IntentionAction.MyExecutableProxi(bulbAction, solution, textControl),
-                bulbAction.Text,
-                LogoThemedIcons.NukeLogo.Id,
-                anchor);
-        }
+            var mainAnchor = new SubmenuAnchor(gutterMarkAnchor,
+                new SubmenuBehavior(text: null, icon: null, executable: true, removeFirst: true));
+            var subAnchor2 = new InvisibleAnchor(mainAnchor);
+            var subAnchor3 = subAnchor2.CreateNext(separate: true);
+            
+            BulbMenuItem CreateItem(bool debug, bool skipDependencies, IAnchor anchor)
+            {
+                var action = new NukeTargetExecutionAction(project.ProjectFileLocation.FullPath, targetName, debug, skipDependencies);
+                return new BulbMenuItem(
+                    new IntentionAction.MyExecutableProxi(
+                        action,
+                        solution,
+                        textControl),
+                    action.Text,
+                    LogoThemedIcons.NukeLogo.Id,
+                    anchor);
+            }
 
-        private BulbMenuItem[] CreateRunTargetMenu(string propertyName, IAnchor gutterMarkAnchor, ISolution solution, ITextControl textControl)
-        {
-            var runSubMenuAnchor = new SubmenuAnchor(gutterMarkAnchor,
-                new SubmenuBehavior(text: null, icon: null, executable: true, removeFirst: true));
-            var debugSubMenuAnchor = new SubmenuAnchor(gutterMarkAnchor,
-                new SubmenuBehavior(text: null, icon: null, executable: true, removeFirst: true));
             return new[]
                    {
-                       CreateItem(new RunNukeTargetBulbAction(propertyName), solution, textControl, runSubMenuAnchor),
-                       CreateItem(new DebugNukeTargetBulbAction(propertyName), solution, textControl, debugSubMenuAnchor),
-                       CreateItem(new RunSingleNukeTargetBulbAction(propertyName), solution, textControl, runSubMenuAnchor),
-                       CreateItem(new DebugSingleNukeTargetBulbAction(propertyName), solution, textControl, debugSubMenuAnchor)
+                       CreateItem(debug: false, skipDependencies: false, subAnchor3),
+                       CreateItem(debug: true, skipDependencies: false, subAnchor3),
+                       CreateItem(debug: false, skipDependencies: true, mainAnchor),
+                       CreateItem(debug: true, skipDependencies: true, mainAnchor)
                    };
         }
 
@@ -92,5 +103,7 @@ namespace ReSharper.Nuke.Highlightings
 
         public string ToolTip { get; }
         public string ErrorStripeToolTip => ToolTip;
+        public const string NukeGutterIconAttribute = "Nuke Gutter Icon";
+        public const string Nuke = "Nuke";
     }
 }
