@@ -35,8 +35,8 @@ using ReSharper.Nuke.Utility;
 
 namespace ReSharper.Nuke.Actions
 {
-    [Action("ExecuteBuildTarget", "Execute Build Target", Id = 3453)]
-    public class AllNukeTargetExecutionAction : IActionWithExecuteRequirement, IExecutableAction
+    [Action("GlobalNukeTargetExecution", "Execute NUKE Target", Id = 3453)]
+    public class GlobalNukeTargetExecutionAction : IActionWithExecuteRequirement, IExecutableAction
     {
         public IActionRequirement GetRequirement(IDataContext dataContext)
         {

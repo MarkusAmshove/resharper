@@ -18,8 +18,8 @@
   </project-components>
 
   <actions>
-    <action id="ExecuteBuildTarget" class="com.jetbrains.rider.plugins.nuke.ExecuteBuildTargetAction"
-            text="Execute Build Target" description="Locate current item in the Solution/Project View">
+    <action id="ExecuteBuildTarget" class="com.jetbrains.rider.plugins.nuke.GlobalNukeTargetExecutionAction"
+            text="Execute NUKE Target" description="Allows to execute NUKE build targets from anywhere">
     </action>
   </actions>
   

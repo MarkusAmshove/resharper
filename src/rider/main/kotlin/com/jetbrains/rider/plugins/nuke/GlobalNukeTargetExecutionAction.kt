@@ -2,8 +2,8 @@ package com.jetbrains.rider.plugins.nuke
 
 import com.jetbrains.rider.actions.base.RiderAnAction
 
-class ExecuteBuildTargetAction : RiderAnAction(
-        "ExecuteBuildTarget",
-        "Execute Build Target",
+class GlobalNukeTargetExecutionAction : RiderAnAction(
+        "GlobalNukeTargetExecution",
+        "Execute NUKE Target",
         null,
     NukeIcons.Icon)
