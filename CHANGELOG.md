@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [vNext]
 - Added target snippet available via `ntarget`
+- Added `GlobalNukeTargetExecution` action for global execution of targets from anywhere
 - Added custom run configurations (Rider)
-- Fixed context action caption
 
 ## [0.2.20] / 2018-08-18
 - Fixed RunConfigurations to be unique per target and reuse program arguments
