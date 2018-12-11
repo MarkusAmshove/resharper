@@ -1,7 +1,9 @@
 package com.jetbrains.rider.plugins.nuke
 
 import com.intellij.execution.RunManager
+import com.intellij.execution.RunnerAndConfigurationSettings
 import com.intellij.execution.configurations.ConfigurationTypeBase
+import com.intellij.openapi.project.Project
 import com.jetbrains.rider.model.RunnableProject
 import com.jetbrains.rider.model.RunnableProjectKind
 import com.jetbrains.rider.run.configurations.IRunnableProjectConfigurationType
@@ -16,6 +18,7 @@ class NukeBuildTargetConfigurationType
     NukeIcons.Icon),
         IRunnableProjectConfigurationType,
         IRunConfigurationWithDefault {
+
     private val factoryConfiguration: DotNetProjectConfigurationFactory = DotNetProjectConfigurationFactory(this)
 
     init {
@@ -28,5 +31,5 @@ class NukeBuildTargetConfigurationType
     override fun isApplicable(kind: RunnableProjectKind) =
             kind == RunnableProjectKind.Console || kind == RunnableProjectKind.DotNetCore
 
-    override fun tryCreateDefault(projects: List<RunnableProject>, runManager: RunManager)  = null
+    override fun tryCreateDefault(projects: List<RunnableProject>, project: Project, runManager: RunManager) = null
 }

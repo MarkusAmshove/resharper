@@ -20,10 +20,11 @@ buildDir = '.tmp'
 ext {
     repoRoot = new File(".").canonicalFile
     isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
-    sdkVersion = "2018.2"
+    sdkVersion = "2018.3"
     rdLibDirectory = new File("$buildDir/riderRD-$sdkVersion-SNAPSHOT/lib/rd")
     dotNetDir = new File(repoRoot, "src/dotnet")
     dotNetPluginId = "ReSharper.Nuke"
+    dotnetSolution = new File(repoRoot, "nuke-resharper.sln")
 }
 
 repositories {
@@ -64,9 +65,23 @@ sourceSets {
 
 task compileDotNet {
     doLast {
-        exec {
-            executable "powershell"
-            args "-ExecutionPolicy","ByPass","-NoProfile","-File","$rootDir/buildPlugin.ps1"
+        if (isWindows) {
+            exec {
+                executable "powershell"
+                args "-ExecutionPolicy","ByPass","-NoProfile","-File","$rootDir/buildPlugin.ps1"
+            }
+        } else {
+            ByteArrayOutputStream stdout = new ByteArrayOutputStream()
+            exec {
+                executable 'which'
+                args 'msbuild'
+                standardOutput = stdout
+                workingDir project.rootDir
+            }
+            exec {
+                executable stdout.toString().trim()
+                args "/t:Restore;Rebuild;Pack","$dotnetSolution","/v:minimal"
+            }
         }
     }
 }
