@@ -17,7 +17,7 @@ namespace ReSharper.Nuke
     {
         public static void CreateNukeArgumentsFile(string argumentsFilePath, bool skipDependencies, [CanBeNull] string targetName)
         {
-            File.WriteAllText(argumentsFilePath, $"{targetName}{(skipDependencies ? " -Skip" : string.Empty)}");
+            File.WriteAllText(argumentsFilePath, $"{targetName}{(skipDependencies ? " --skip" : string.Empty)}");
         }
 
         public static FileSystemPath GetNukeArgumentsFilePath(IProject buildProject)

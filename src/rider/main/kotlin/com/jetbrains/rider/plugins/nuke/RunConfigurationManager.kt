@@ -26,7 +26,7 @@ class RunConfigurationManager(project: Project, private val runManager: RunManag
                 configuration = createAndAddConfiguration(
                         dotnetConfiguration.name + " (Temp)",
                         dotnetConfiguration.parameters.projectFilePath,
-                        dotnetConfiguration.parameters.programParameters + " -skip")
+                        dotnetConfiguration.parameters.programParameters + " --skip")
                 runManager.addConfiguration(configuration)
             }
 
