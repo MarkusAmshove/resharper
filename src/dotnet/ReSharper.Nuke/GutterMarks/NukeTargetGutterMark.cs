@@ -14,7 +14,6 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Resources.Shell;
 using JetBrains.TextControl;
 using JetBrains.TextControl.DocumentMarkup;
-using JetBrains.UI.Icons;
 using JetBrains.Util;
 using ReSharper.Nuke.GutterMarks;
 using ReSharper.Nuke.Resources;

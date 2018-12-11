@@ -5,11 +5,11 @@
 using System;
 using System.IO;
 using System.Linq;
+using EnvDTE;
 using JetBrains.Annotations;
 using JetBrains.DataFlow;
 using JetBrains.ProjectModel;
 using JetBrains.Util;
-using EnvDTE;
 
 namespace ReSharper.Nuke
 {
@@ -33,7 +33,7 @@ namespace ReSharper.Nuke
             var watcher = new FileSystemWatcher(tempFilePath.Directory.FullPath, tempFilePath.Name) { EnableRaisingEvents = true };
             watcher.Deleted += DeletedEventHandler;
 
-            lifetime.Lifetime.AddAction(() =>
+            lifetime.Lifetime.OnTermination(() =>
             {
                 watcher.Deleted -= DeletedEventHandler;
                 watcher.EnableRaisingEvents = false;
@@ -51,7 +51,7 @@ namespace ReSharper.Nuke
         public static void RestoreStartupProjectAfterExecution(Lifetime lifetime, _DTE dte)
         {
             var startupObjects = dte.Solution.SolutionBuild.StartupProjects;
-            lifetime.AddAction(() =>
+            lifetime.OnTermination(() =>
             {
                 if (startupObjects is object[] startupObjectsArray && startupObjectsArray.Length == 1)
                 {
@@ -64,7 +64,7 @@ namespace ReSharper.Nuke
 
         public static void TemporaryEnableNukeProjectBuild(Lifetime lifetime, IProject buildProject, ISolution solution, _DTE dte)
         {
-            lifetime.AddBracket(() => SetEnableBuild(shouldBuild: true, project: buildProject, solution: solution, dte: dte),
+            lifetime.Bracket(() => SetEnableBuild(shouldBuild: true, project: buildProject, solution: solution, dte: dte),
                 () =>
                 {
                     SetEnableBuild(shouldBuild: false, project: buildProject, solution: solution, dte: dte);

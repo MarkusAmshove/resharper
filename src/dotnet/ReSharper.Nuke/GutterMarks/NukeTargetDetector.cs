@@ -20,9 +20,9 @@ namespace ReSharper.Nuke.GutterMarks
             if (data.GetDaemonProcessKind() != DaemonProcessKind.VISIBLE_DOCUMENT)
                 return;
 
-            if (!element.DeclaredElement.IsNukeBuildTarget()) 
+            if (!element.DeclaredElement.IsNukeBuildTarget())
                 return;
-            
+
             var documentRange = element.GetDocumentRange();
             var tooltip = "Nuke Target";
             var highlighting = new NukeTargetMarkOnGutter(element, documentRange, tooltip);

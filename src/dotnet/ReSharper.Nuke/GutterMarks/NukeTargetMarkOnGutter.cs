@@ -32,46 +32,21 @@ namespace ReSharper.Nuke.GutterMarks
         AttributeId = NukeGutterIconAttribute)]
     public class NukeTargetMarkOnGutter : IHighlighting
     {
-        [CanBeNull] private readonly ITreeNode _myElement;
-        private readonly DocumentRange _myRange;
+        public const string NukeGutterIconAttribute = "Nuke Gutter Icon";
+        public const string Nuke = "Nuke";
 
-        public NukeTargetMarkOnGutter([CanBeNull] ITreeNode element, DocumentRange range, string tooltip)
-        {
-            _myElement = element;
-            _myRange = range;
-            ToolTip = tooltip;
-        }
-
-        public bool IsValid()
-        {
-            return _myElement == null || _myElement.IsValid();
-        }
-
-        public IEnumerable<BulbMenuItem> GetBulbMenuItems(ISolution solution, ITextControl textControl, IAnchor gutterMarkAnchor)
-        {
-            var project = textControl.Document.GetPsiSourceFile(solution)?.GetProject();
-            var propertyDeclaration = _myElement as IPropertyDeclaration;
-            var property = propertyDeclaration?.DeclaredElement;
-
-            if (property == null) return EmptyList<BulbMenuItem>.Enumerable;
-
-            var propertyName = propertyDeclaration.DeclaredName;
-
-            if (property.IsNukeBuildTarget())
-            {
-                return CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl);
-            }
-
-            return EmptyList<BulbMenuItem>.Enumerable;
-        }
-
-        public static BulbMenuItem[] CreateRunTargetMenu(IProject project, string targetName, IAnchor gutterMarkAnchor, ISolution solution, ITextControl textControl)
+        public static BulbMenuItem[] CreateRunTargetMenu(
+            IProject project,
+            string targetName,
+            IAnchor gutterMarkAnchor,
+            ISolution solution,
+            ITextControl textControl)
         {
             var mainAnchor = new SubmenuAnchor(gutterMarkAnchor,
                 new SubmenuBehavior(text: null, icon: null, executable: true, removeFirst: true));
             var subAnchor2 = new InvisibleAnchor(mainAnchor);
             var subAnchor3 = subAnchor2.CreateNext(separate: true);
-            
+
             BulbMenuItem CreateItem(bool debug, bool skipDependencies, IAnchor anchor)
             {
                 var action = new NukeTargetExecutionAction(project.ProjectFileLocation.FullPath, targetName, debug, skipDependencies);
@@ -94,14 +69,49 @@ namespace ReSharper.Nuke.GutterMarks
                    };
         }
 
+        [CanBeNull] private readonly ITreeNode _myElement;
+        private readonly DocumentRange _myRange;
+
+        public NukeTargetMarkOnGutter([CanBeNull] ITreeNode element, DocumentRange range, string tooltip)
+        {
+            _myElement = element;
+            _myRange = range;
+            ToolTip = tooltip;
+        }
+
+        public IEnumerable<BulbMenuItem> GetBulbMenuItems(ISolution solution, ITextControl textControl, IAnchor gutterMarkAnchor)
+        {
+            var project = textControl.Document.GetPsiSourceFile(solution)?.GetProject();
+            var propertyDeclaration = _myElement as IPropertyDeclaration;
+            var property = propertyDeclaration?.DeclaredElement;
+
+            if (property == null) return EmptyList<BulbMenuItem>.Enumerable;
+
+            var propertyName = propertyDeclaration.DeclaredName;
+
+            if (property.IsNukeBuildTarget())
+            {
+                return CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl);
+            }
+
+            return EmptyList<BulbMenuItem>.Enumerable;
+        }
+
+        #region IHighlighting
+
+        public string ToolTip { get; }
+        public string ErrorStripeToolTip => ToolTip;
+
+        public bool IsValid()
+        {
+            return _myElement == null || _myElement.IsValid();
+        }
+
         public DocumentRange CalculateRange()
         {
             return _myRange;
         }
 
-        public string ToolTip { get; }
-        public string ErrorStripeToolTip => ToolTip;
-        public const string NukeGutterIconAttribute = "Nuke Gutter Icon";
-        public const string Nuke = "Nuke";
+        #endregion
     }
 }

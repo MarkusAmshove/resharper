@@ -5,7 +5,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using JetBrains.Application;
 using JetBrains.Application.Settings;
 using JetBrains.DataFlow;
@@ -16,14 +15,18 @@ namespace ReSharper.Nuke.Settings
     [ShellComponent]
     public class TemplatesSettings : IHaveDefaultSettingsStream
     {
+        #region IHaveDefaultSettingsStream
+
+        public string Name => "NUKE Template Settings";
+
         public Stream GetDefaultSettingsStream(Lifetime lifetime)
         {
             var manifestResourceStream = typeof(TemplatesSettings).Assembly
                 .GetManifestResourceStream(typeof(TemplatesSettings).Namespace + ".Templates.DotSettings").NotNull();
-            lifetime.AddDispose(manifestResourceStream);
+            lifetime.OnTermination(manifestResourceStream);
             return manifestResourceStream;
         }
 
-        public string Name => "NUKE Template Settings";
+        #endregion
     }
 }
