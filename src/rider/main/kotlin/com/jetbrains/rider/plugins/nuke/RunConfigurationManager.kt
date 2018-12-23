@@ -19,14 +19,19 @@ class RunConfigurationManager(project: Project, private val runManager: RunManag
     init {
         project.solution.nukeModel.build.advise(componentLifetime) { buildInvocation ->
             var configuration = runManager.findConfigurationByName(buildInvocation.target)
-                ?: createAndAddConfiguration(buildInvocation.target, buildInvocation.projectFile, buildInvocation.target)
+                ?: createAndAddConfiguration(
+                    buildInvocation.target,
+                    buildInvocation.projectFile,
+                    buildInvocation.target,
+                    hashMapOf())
 
             if (buildInvocation.skipDependencies) {
                 val dotnetConfiguration = configuration.configuration as DotNetProjectConfiguration
                 configuration = createAndAddConfiguration(
                         dotnetConfiguration.name + " (Temp)",
                         dotnetConfiguration.parameters.projectFilePath,
-                        dotnetConfiguration.parameters.programParameters + " --skip")
+                        dotnetConfiguration.parameters.programParameters + " --skip",
+                        dotnetConfiguration.parameters.envs)
                 runManager.addConfiguration(configuration)
             }
 
@@ -48,7 +53,11 @@ class RunConfigurationManager(project: Project, private val runManager: RunManag
         }
     }
 
-    private fun createAndAddConfiguration(name: String, projectFile: String, arguments: String): RunnerAndConfigurationSettings {
+    private fun createAndAddConfiguration(
+        name: String,
+        projectFile: String,
+        arguments: String,
+        envs: Map<String, String>): RunnerAndConfigurationSettings {
 
         val configurationType = runConfigurationType<NukeBuildTargetConfigurationType>()
         val configurationFactory = configurationType.configurationFactories.first()
@@ -63,7 +72,7 @@ class RunConfigurationManager(project: Project, private val runManager: RunManag
         dotnetConfiguration.parameters.projectFilePath = dotnetProject.projectFilePath
         dotnetConfiguration.parameters.projectKind = dotnetProject.kind
         dotnetConfiguration.parameters.programParameters = arguments
-        //  dotnetConfiguration.parameters.envs
+        dotnetConfiguration.parameters.envs = envs
 
         configuration!!.checkSettings()
         runManager.addConfiguration(configuration)
