@@ -13,7 +13,7 @@
 
     <PackageProjectUrl>https://nuke.build</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/nuke-build/resharper/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/nuke-build/nuke/master/icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/nuke-build/nuke/master/images/icon.png</PackageIconUrl>
   </PropertyGroup>
     
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
