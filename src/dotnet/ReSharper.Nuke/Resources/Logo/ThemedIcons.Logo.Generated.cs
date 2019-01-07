@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 [assembly: global::System.Windows.Markup.XmlnsDefinitionAttribute("urn:shemas-jetbrains-com:ui-application-icons-logo", "ReSharper.Nuke.Resources")]
-[assembly: global::JetBrains.UI.Icons.CompiledIcons.CompiledIconsPackAttribute(IconPackResourceIdentification="ReSharper.Nuke.Rider;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", IconNames=new string[] {
+[assembly: global::JetBrains.UI.Icons.CompiledIcons.CompiledIconsPackAttribute(IconPackResourceIdentification="ReSharper.Nuke;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", IconNames=new string[] {
 		"NukeLogo"})]
 
 namespace ReSharper.Nuke.Resources
@@ -76,7 +76,7 @@ namespace ReSharper.Nuke.Resources
 		///<example>
 		///  <code>themediconmanager.GetIcon&lt;LogoThemedIcons.NukeLogo&gt;()        // Icon image for rendering</code>
 		///</example>
-		[global::JetBrains.UI.Icons.CompiledIcons.CompiledIconClassAttribute("ReSharper.Nuke.Rider;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", 0, "NukeLogo")]
+		[global::JetBrains.UI.Icons.CompiledIcons.CompiledIconClassAttribute("ReSharper.Nuke;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", 0, "NukeLogo")]
 		public sealed class NukeLogo : global::JetBrains.UI.Icons.CompiledIcons.CompiledIconClass
 		{
 			
@@ -102,13 +102,13 @@ namespace ReSharper.Nuke.Resources
 			///<example>
 			///  <code>themediconmanager.GetIcon&lt;LogoThemedIcons.NukeLogo&gt;()        // Icon image for rendering</code>
 			///</example>
-			public static global::JetBrains.UI.Icons.IconId Id = new global::JetBrains.UI.Icons.CompiledIcons.CompiledIconId("ReSharper.Nuke.Rider;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", 0, "NukeLogo");
+			public static global::JetBrains.UI.Icons.IconId Id = new global::JetBrains.UI.Icons.CompiledIcons.CompiledIconId("ReSharper.Nuke;component/Resources/Logo/ThemedIcons.Logo.Generated.Xaml", 0, "NukeLogo");
 		}
 	}
 }
 
 
-public sealed class RenderedIcons_ByPackResourceNameHash_EAFEAF7B9F5519A9D3EB90D54CA3C192
+public sealed class RenderedIcons_ByPackResourceNameHash_6E8B3FB99B70842108F30740BA4B359E
 {
 	
 	public static byte[] NukeLogo__Color__png__x1 = new byte[] {
