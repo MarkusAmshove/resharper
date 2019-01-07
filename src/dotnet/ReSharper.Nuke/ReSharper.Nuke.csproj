@@ -12,7 +12,6 @@
     <PackageTags>build automation continuous-integration tools orchestration</PackageTags>
 
     <PackageProjectUrl>https://nuke.build</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/nuke-build/resharper</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/nuke-build/resharper/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/nuke-build/nuke/master/icon.png</PackageIconUrl>
   </PropertyGroup>
