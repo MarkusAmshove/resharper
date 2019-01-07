@@ -5,6 +5,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
+    <Title>NUKE Support</Title>
     <Description>This extension adds gutter marks for build targets. By hitting Alt-Enter, targets can be invoked in run mode. A submenu also allows to invoke targets in debug mode, and choose whether to include or exclude dependencies. It also adds an ntarget live-template to write new targets more quickly.</Description>
 
     <Authors>Matthias Koch, Sebastian Karasek</Authors>
