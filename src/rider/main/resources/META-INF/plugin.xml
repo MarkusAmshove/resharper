@@ -25,14 +25,10 @@
   
   <description>
     <![CDATA[
-<p>NUKE is a cross-platform build automation system for C# developers.</p>
-<p>This plugin enables:</p>
-<ul>
-  <li>Gutter icons for target properties</li>
-  <li>Context actions for invoking targets in run and debug mode</li>
-  <li>Custom run configurations</li>
-  <li>Target snippet available via 'ntarget'</li>
-</ul>
+<h2>NUKE Support</h2>
+<p>This extension adds gutter marks for build targets. By hitting Alt-Enter, targets can be invoked in <em>run mode</em>. A submenu also allows to invoke targets in <em>debug mode</em>, and choose whether to <em>include or exclude dependencies</em>. It also adds an <b>ntarget</b> live-template to write new targets more quickly.</p>
+<h2>About NUKE</h2>
+<p>Founded in April 2017, NUKE is a free, open-source build automation system for C#/.NET that runs cross-platform on .NET Core, .NET Framework, and Mono. While builds are bootstrapped with conventional Bash or PowerShell scripts, their actual implementation resides in simple C# console applications. This approach unleashes the power of the type system and natively provides IDE features like code-completion, refactorings, and debugging. A custom global tool and several IDE extensions further improve how build projects are setup, authored and executed.</p>
 ]]>
   </description>
   <change-notes>_PLACEHOLDER_</change-notes>

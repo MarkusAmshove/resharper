@@ -5,12 +5,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <Description>NUKE is a cross-platform build automation system for C# developers. 
-
-This target enables:
-&#8226; Gutter icons for target properties
-&#8226; Context actions for invoking targets in run and debug mode
-&#8226; Target snippet available via 'ntarget'</Description>
+    <Description>This extension adds gutter marks for build targets. By hitting Alt-Enter, targets can be invoked in run mode. A submenu also allows to invoke targets in debug mode, and choose whether to include or exclude dependencies. It also adds an ntarget live-template to write new targets more quickly.</Description>
 
     <Authors>Matthias Koch, Sebastian Karasek</Authors>
     <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of NUKE</Copyright>
