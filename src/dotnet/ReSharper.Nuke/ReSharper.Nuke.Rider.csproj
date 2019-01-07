@@ -7,7 +7,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   
   <PropertyGroup>
-    <IsPackable>true</IsPackable>
+    <IsPackable>false</IsPackable>
     <RootNamespace>ReSharper.Nuke</RootNamespace>
     <DefineConstants>$(DefineConstants);RIDER</DefineConstants>
   </PropertyGroup>
