@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using EnvDTE;
 using JetBrains.Annotations;
-using JetBrains.DataFlow;
+using JetBrains.Lifetimes;
 using JetBrains.ProjectModel;
 using JetBrains.Util;
 
@@ -25,26 +25,26 @@ namespace ReSharper.Nuke
             return buildProject.GetOutputDirectory(buildProject.GetCurrentTargetFrameworkId()) / "nuke.tmp";
         }
 
-        public static Lifetime StartNukeTempFileWatcher(FileSystemPath tempFilePath, Lifetime parentLifetime = null)
+        public static Lifetime StartNukeTempFileWatcher(FileSystemPath tempFilePath, Lifetime parentLifetime = default)
         {
-            var lifetime = parentLifetime == null
-                ? Lifetimes.Define(nameof(StartNukeTempFileWatcher))
-                : Lifetimes.Define(parentLifetime, nameof(StartNukeTempFileWatcher));
+            var lifetimeDefinition = parentLifetime == null
+                ? Lifetime.Define(nameof(StartNukeTempFileWatcher))
+                : Lifetime.Define(parentLifetime, nameof(StartNukeTempFileWatcher));
             var watcher = new FileSystemWatcher(tempFilePath.Directory.FullPath, tempFilePath.Name) { EnableRaisingEvents = true };
             watcher.Deleted += DeletedEventHandler;
 
-            lifetime.Lifetime.OnTermination(() =>
+            lifetimeDefinition.Lifetime.OnTermination(() =>
             {
                 watcher.Deleted -= DeletedEventHandler;
                 watcher.EnableRaisingEvents = false;
                 watcher.Dispose();
                 watcher = null;
             });
-            return lifetime.Lifetime;
+            return lifetimeDefinition.Lifetime;
 
             void DeletedEventHandler(object sender, FileSystemEventArgs args)
             {
-                lifetime.Terminate();
+                lifetimeDefinition.Terminate();
             }
         }
 

@@ -4,31 +4,34 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
-using JetBrains.Platform.RdFramework;
-using JetBrains.Platform.RdFramework.Base;
-using JetBrains.Platform.RdFramework.Impl;
-using JetBrains.Platform.RdFramework.Tasks;
-using JetBrains.Platform.RdFramework.Util;
-using JetBrains.Platform.RdFramework.Text;
+using JetBrains.Core;
+using JetBrains.Diagnostics;
+using JetBrains.Collections;
+using JetBrains.Collections.Viewable;
+using JetBrains.Lifetimes;
+using JetBrains.Serialization;
+using JetBrains.Rd;
+using JetBrains.Rd.Base;
+using JetBrains.Rd.Impl;
+using JetBrains.Rd.Tasks;
+using JetBrains.Rd.Util;
+using JetBrains.Rd.Text;
 
-using JetBrains.Util.Collections;
-using JetBrains.Util.Logging;
-using JetBrains.Util.PersistentMap;
-using Lifetime = JetBrains.DataFlow.Lifetime;
 
 // ReSharper disable RedundantEmptyObjectCreationArgumentList
 // ReSharper disable InconsistentNaming
 // ReSharper disable RedundantOverflowCheckingContext
 
 
-namespace JetBrains.Rider.Model
+namespace ReSharper.Nuke.Rider
 {
   
   
-  public class NukeModel : RdExtBase {
+  public class NukeModel : RdExtBase
+  {
     //fields
     //public fields
-    [NotNull] public IRdSignal<BuildInvocation> Build { get { return _Build; }}
+    [NotNull] public ISignal<BuildInvocation> Build => _Build;
     
     //private fields
     [NotNull] private readonly RdSignal<BuildInvocation> _Build;
@@ -52,14 +55,13 @@ namespace JetBrains.Rider.Model
     
     
     
-    protected override long SerializationHash => -4251989644293807542L;
+    protected override long SerializationHash => -3461171631543031882L;
     
     protected override Action<ISerializers> Register => RegisterDeclaredTypesSerializers;
     public static void RegisterDeclaredTypesSerializers(ISerializers serializers)
     {
-      serializers.Register(BuildInvocation.Read, BuildInvocation.Write);
       
-      serializers.RegisterToplevelOnce(typeof(IdeRoot), IdeRoot.RegisterDeclaredTypesSerializers);
+      serializers.RegisterToplevelOnce(typeof(JetBrains.Rider.Model.IdeRoot), JetBrains.Rider.Model.IdeRoot.RegisterDeclaredTypesSerializers);
     }
     
     //custom body
@@ -84,14 +86,15 @@ namespace JetBrains.Rider.Model
   }
   public static class SolutionNukeModelEx
    {
-    public static NukeModel GetNukeModel(this Solution solution)
+    public static NukeModel GetNukeModel(this JetBrains.Rider.Model.Solution solution)
     {
       return solution.GetOrCreateExtension("nukeModel", () => new NukeModel());
     }
   }
   
   
-  public class BuildInvocation : IPrintable, IEquatable<BuildInvocation> {
+  public class BuildInvocation : IPrintable, IEquatable<BuildInvocation>
+  {
     //fields
     //public fields
     [NotNull] public string ProjectFile {get; private set;}
@@ -125,7 +128,8 @@ namespace JetBrains.Rider.Model
       var target = reader.ReadString();
       var debugMode = reader.ReadBool();
       var skipDependencies = reader.ReadBool();
-      return new BuildInvocation(projectFile, target, debugMode, skipDependencies);
+      var _result = new BuildInvocation(projectFile, target, debugMode, skipDependencies);
+      return _result;
     };
     
     public static CtxWriteDelegate<BuildInvocation> Write = (ctx, writer, value) => 

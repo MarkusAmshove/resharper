@@ -8,7 +8,8 @@
   
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <RootNamespace>ReSharper.Nuke</RootNamespace>
+    <AssemblyName>ReSharper.Nuke</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
     <DefineConstants>$(DefineConstants);RIDER</DefineConstants>
   </PropertyGroup>
   

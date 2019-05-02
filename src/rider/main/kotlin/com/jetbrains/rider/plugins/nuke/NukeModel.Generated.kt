@@ -1,42 +1,39 @@
 @file:Suppress("PackageDirectoryMismatch", "UnusedImport", "unused", "LocalVariableName")
-package com.jetbrains.rider.model
+package com.jetbrains.rider.plugins.nuke
 
-import com.jetbrains.rider.framework.*
-import com.jetbrains.rider.framework.base.*
-import com.jetbrains.rider.framework.impl.*
+import com.jetbrains.rd.framework.*
+import com.jetbrains.rd.framework.base.*
+import com.jetbrains.rd.framework.impl.*
 
-import com.jetbrains.rider.util.lifetime.*
-import com.jetbrains.rider.util.reactive.*
-import com.jetbrains.rider.util.string.*
-import com.jetbrains.rider.util.trace
+import com.jetbrains.rd.util.lifetime.*
+import com.jetbrains.rd.util.reactive.*
+import com.jetbrains.rd.util.string.*
+import com.jetbrains.rd.util.*
 import kotlin.reflect.KClass
-
-import java.io.*
-import java.util.*
-import java.net.*
 
 
 
 class NukeModel private constructor(
-    private val _build : RdSignal<BuildInvocation>
+    private val _build: RdSignal<BuildInvocation>
 ) : RdExtBase() {
     //companion
     
     companion object : ISerializersOwner {
         
-        override fun registerSerializersCore(serializers : ISerializers) {
+        override fun registerSerializersCore(serializers: ISerializers) {
             serializers.register(BuildInvocation)
         }
         
         
         
+        
+        const val serializationHash = -3461171631543031882L
     }
-    override val serializersOwner : ISerializersOwner get() = NukeModel
-    override val serializationHash : Long get() = -4251989644293807542L
+    override val serializersOwner: ISerializersOwner get() = NukeModel
+    override val serializationHash: Long get() = NukeModel.serializationHash
     
     //fields
-    val build : ISignal<BuildInvocation> get() = _build
-    
+    val build: ISignal<BuildInvocation> get() = _build
     //initializer
     init {
         bindableChildren.add("build" to _build)
@@ -44,7 +41,7 @@ class NukeModel private constructor(
     
     //secondary constructor
     internal constructor(
-    ) : this (
+    ) : this(
         RdSignal<BuildInvocation>(BuildInvocation)
     )
     
@@ -59,15 +56,15 @@ class NukeModel private constructor(
         printer.print(")")
     }
 }
-val Solution.nukeModel get() = getOrCreateExtension("nukeModel", ::NukeModel)
+val com.jetbrains.rider.model.Solution.nukeModel get() = getOrCreateExtension("nukeModel", ::NukeModel)
 
 
 
 data class BuildInvocation (
-    val projectFile : String,
-    val target : String,
-    val debugMode : Boolean,
-    val skipDependencies : Boolean
+    val projectFile: String,
+    val target: String,
+    val debugMode: Boolean,
+    val skipDependencies: Boolean
 ) : IPrintable {
     //companion
     
@@ -97,7 +94,7 @@ data class BuildInvocation (
     //equals trait
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other?.javaClass != javaClass) return false
+        if (other == null || other::class != this::class) return false
         
         other as BuildInvocation
         

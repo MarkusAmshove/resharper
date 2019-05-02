@@ -7,8 +7,8 @@ using System.IO;
 using System.Linq;
 using JetBrains.Application;
 using JetBrains.Application.Settings;
-using JetBrains.DataFlow;
-using JetBrains.Util;
+using JetBrains.Diagnostics;
+using JetBrains.Lifetimes;
 
 namespace ReSharper.Nuke.Settings
 {

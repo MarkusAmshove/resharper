@@ -16,7 +16,7 @@ using JetBrains.VsIntegration.IDE.RunConfig;
 using JetBrains.VsIntegration.Interop;
 #elif RIDER
 using JetBrains.ReSharper.Host.Features;
-using JetBrains.Rider.Model;
+using ReSharper.Nuke.Rider;
 #endif
 
 namespace ReSharper.Nuke.Actions
