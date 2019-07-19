@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <SdkVersion>2019.2.0-*</SdkVersion>
+
+    <Title>NUKE Support</Title>
+    <Description>This extension adds gutter marks for build targets. By hitting Alt-Enter, targets can be invoked in run mode. A submenu also allows to invoke targets in debug mode, and choose whether to include or exclude dependencies. It also adds an ntarget live-template to write new targets more quickly.</Description>
+
+    <Authors>Matthias Koch, Sebastian Karasek</Authors>
+    <Copyright>Copyright 2017-$([System.DateTime]::Now.Year) Maintainers of NUKE</Copyright>
+    <PackageTags>build automation continuous-integration tools orchestration</PackageTags>
+
+    <PackageProjectUrl>https://nuke.build</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/nuke-build/resharper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/nuke-build/nuke/master/images/icon.png</PackageIconUrl>
+  </PropertyGroup>
+</Project>

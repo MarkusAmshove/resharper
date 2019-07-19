@@ -1,6 +1,6 @@
 Param(
     $RootSuffix = "nuke",
-    $Version = "0.0.1"
+    $Version = "1337.0.0"
 )
 
 Set-StrictMode -Version Latest
@@ -16,7 +16,7 @@ if (!(Test-Path "$UserProjectXmlFile")) {
     $DownloadLink = [uri] $(Invoke-WebRequest -UseBasicParsing $ReleaseUrl | ConvertFrom-Json).RSU[0].downloads.windows.link
 
     # Download installer
-    $InstallerFile = "$PSScriptRoot\.tmp\installer\$($DownloadLink.Segments[-1])"
+    $InstallerFile = "$PSScriptRoot\build\installer\$($DownloadLink.Segments[-1])"
     if (!(Test-Path $InstallerFile)) {
         mkdir -Force $(Split-Path $InstallerFile -Parent) > $null
         Write-Output "Downloading from $DownloadLink"
@@ -27,10 +27,10 @@ if (!(Test-Path "$UserProjectXmlFile")) {
 
     # Execute installer
     Write-Output "Installing experimental hive"
-    Invoke-Exe $InstallerFile "/VsVersion=15.0" "/SpecificProductNames=ReSharper" "/Hive=$RootSuffix" "/Silent=True"
+    Invoke-Exe $InstallerFile "/VsVersion=$VisualStudioMajorVersion.0" "/SpecificProductNames=ReSharper" "/Hive=$RootSuffix" "/Silent=True"
 
     $PluginRepository = "$env:LOCALAPPDATA\JetBrains\plugins"
-    $InstallationDirectory = $(Get-ChildItem "$env:APPDATA\JetBrains\ReSharperPlatformVs*\v*_*$RootSuffix\NuGet.Config").Directory
+    $InstallationDirectory = $(Get-ChildItem "$env:APPDATA\JetBrains\ReSharperPlatformVs$VisualStudioMajorVersion\v*_$VisualStudioInstanceId$RootSuffix\NuGet.Config").Directory
 
     # Adapt packages.config
     if (Test-Path "$InstallationDirectory\packages.config") {
@@ -51,11 +51,11 @@ if (!(Test-Path "$UserProjectXmlFile")) {
     }
 
     # Install plugin
-    Invoke-Exe $MSBuildPath "/t:Restore;Compile;Pack" "$SolutionPath" "/v:minimal" "/p:PackageVersion=$Version" "/p:PackageOutputPath=`"$OutputDirectory`""
+    Invoke-Exe $MSBuildPath "/t:Restore;Rebuild;Pack" "$SolutionPath" "/v:minimal" "/p:PackageVersion=$Version" "/p:PackageOutputPath=`"$OutputDirectory`""
     Invoke-Exe $NuGetPath install $PluginId -OutputDirectory "$PluginRepository" -Source "$OutputDirectory" -DependencyVersion Ignore
 
     Write-Output "Re-installing experimental hive"
-    Invoke-Exe "$InstallerFile" "/VsVersion=15.0" "/SpecificProductNames=ReSharper" "/Hive=$RootSuffix" "/Silent=True"
+    Invoke-Exe "$InstallerFile" "/VsVersion=$VisualStudioMajorVersion.0" "/SpecificProductNames=ReSharper" "/Hive=$RootSuffix" "/Silent=True"
 
     # Adapt user project file
     $HostIdentifier = "$($InstallationDirectory.Parent.Name)_$($InstallationDirectory.Name.Split('_')[-1])"
@@ -67,11 +67,11 @@ if (!(Test-Path "$UserProjectXmlFile")) {
     $HostIdentifierNode.InnerText = $HostIdentifier
     $ProjectXml.Save("$UserProjectXmlFile")
 
-    # Update Version.props
+    # Update Plugin.props
     $VersionSplit = $DownloadLink.Segments[-1].Split(".")
-    $VersionsPropsFile = "$SourceBasePath\Versions.props"
-    $VersionsPropsXml = [xml] (Get-Content "$VersionsPropsFile")
-    $SdkVersionNode = $VersionsPropsXml.SelectSingleNode(".//SdkVersion")
+    $PluginPropsFile = "$SourceBasePath\Plugin.props"
+    $PluginPropsXml = [xml] (Get-Content "$PluginPropsFile")
+    $SdkVersionNode = $PluginPropsXml.SelectSingleNode(".//SdkVersion")
     if ($VersionSplit.Count -eq 5){
         $SdkVersion = "$($VersionSplit[2]).$($VersionSplit[3]).0"
     } elseif ($VersionSplit[4].StartsWith("EAP")) {
@@ -80,7 +80,7 @@ if (!(Test-Path "$UserProjectXmlFile")) {
         $SdkVersion = "$($VersionSplit[2]).$($VersionSplit[3]).$($VersionSplit[4])"
     }
     $SdkVersionNode.InnerText = $SdkVersion
-    $VersionsPropsXml.Save("$VersionsPropsFile")
+    $PluginPropsXml.Save("$PluginPropsFile")
 } else {
     Write-Warning "Plugin is already installed. To trigger reinstall, delete $UserProjectXmlFile."
 }

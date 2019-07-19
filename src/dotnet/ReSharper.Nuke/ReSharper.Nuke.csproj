@@ -1,22 +1,9 @@
-<Project>
-    
+﻿<Project>
+
   <PropertyGroup>
     <LanguageTargets>$(MSBuildToolsPath)\Microsoft.CSharp.targets</LanguageTargets>
   </PropertyGroup>
-  
-  <PropertyGroup>
-    <Title>NUKE Support</Title>
-    <Description>This extension adds gutter marks for build targets. By hitting Alt-Enter, targets can be invoked in run mode. A submenu also allows to invoke targets in debug mode, and choose whether to include or exclude dependencies. It also adds an ntarget live-template to write new targets more quickly.</Description>
 
-    <Authors>Matthias Koch, Sebastian Karasek</Authors>
-    <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of NUKE</Copyright>
-    <PackageTags>build automation continuous-integration tools orchestration</PackageTags>
-
-    <PackageProjectUrl>https://nuke.build</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/nuke-build/resharper/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/nuke-build/nuke/master/images/icon.png</PackageIconUrl>
-  </PropertyGroup>
-    
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   
   <PropertyGroup>
@@ -25,20 +12,16 @@
     <DefineConstants>$(DefineConstants);RESHARPER</DefineConstants>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-  
-  <Import Project="..\Versions.props" />
-  
+
   <ItemGroup>
-    <!-- TODO: https://github.com/NuGet/Home/issues/7154 -->
-    <PackageReference Include="Wave" Version="$(WaveVersion)" />
     <PackageReference Include="JetBrains.ReSharper.SDK" Version="$(SdkVersion)">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="EnvDTE80" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
+    <!-- TODO: https://github.com/NuGet/Home/issues/7154 -->
+    <PackageReference Include="Wave" Version="$(WaveVersion)" />
   </ItemGroup>
   
   <ItemGroup>
@@ -46,13 +29,19 @@
     <None Remove="Rider\**\*" />
     <EmbeddedResource Remove="Rider\**\*" />
     <Content Remove="Rider\**\*" />
-    
     <EmbeddedResource Include="Settings/*.DotSettings" />
-    
+  </ItemGroup>
+  
+  <ItemGroup>
     <Content Include="bin\ReSharper.Nuke\$(Configuration)\ReSharper.Nuke.*" PackagePath="dotFiles" Pack="true" />
   </ItemGroup>
   
-  <ItemGroup Condition="'$(OS)' != 'Unix'">
+  <ItemGroup>
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
 
@@ -69,7 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ThemedIconsXamlV3>
   </ItemGroup>
-  
+
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
 </Project>
