@@ -17,6 +17,7 @@ using JetBrains.ReSharper.Psi.Modules;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.Resources.Shell;
 using JetBrains.Util;
+using Nuke.Common.Utilities;
 
 namespace ReSharper.Nuke.Rider
 {
@@ -79,6 +80,23 @@ namespace ReSharper.Nuke.Rider
 
             _changedTypeElementsProvider.TypeElementsChanged.Advise(_lifetime,
                 changedTypeElements => HandleClasses(changedTypeElements.OfType<IClass>()));
+
+            _dispatcher.InvokeOrQueue(_lifetime,
+                () => _solution.GetProtocolSolution().GetNukeModel().Complete.Set(Complete));
+        }
+
+        private string[] Complete(string pattern)
+        {
+            var nukeModel = _solution.GetProtocolSolution().GetNukeModel();
+            var items = nukeModel.Parameters.Value
+                .ToDictionary(
+                    x => x.Name,
+                    x => x.Name == "Target"
+                        ? nukeModel.Targets.Value.Select(y => y.Name).ToArray()
+                        : null);
+            var trimmedPattern = pattern.Split(' ').Reverse().Skip(1).Reverse().JoinSpace();
+            return CompletionUtility.GetRelevantCompletionItems(pattern, items)
+                .Select(x => $"{trimmedPattern} {x}").ToArray();
         }
 
         private void HandleClasses(IEnumerable<IClass> classes)

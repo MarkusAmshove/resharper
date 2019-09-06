@@ -35,5 +35,8 @@ object NukeModel : Ext(Solution) {
             field("description", string.nullable)
             field("defaultValue", string.nullable)
         }))
+        
+        call("complete", string, array(string)).async
     }
+
 }

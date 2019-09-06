@@ -34,48 +34,58 @@ namespace ReSharper.Nuke.Rider
     [NotNull] public ISignal<BuildInvocation> Build => _Build;
     [NotNull] public IViewableProperty<NukeTarget[]> Targets => _Targets;
     [NotNull] public IViewableProperty<NukeParameter[]> Parameters => _Parameters;
+    [NotNull] public RdEndpoint<string, string[]> Complete => _Complete;
     
     //private fields
     [NotNull] private readonly RdSignal<BuildInvocation> _Build;
     [NotNull] private readonly RdProperty<NukeTarget[]> _Targets;
     [NotNull] private readonly RdProperty<NukeParameter[]> _Parameters;
+    [NotNull] private readonly RdEndpoint<string, string[]> _Complete;
     
     //primary constructor
     private NukeModel(
       [NotNull] RdSignal<BuildInvocation> build,
       [NotNull] RdProperty<NukeTarget[]> targets,
-      [NotNull] RdProperty<NukeParameter[]> parameters
+      [NotNull] RdProperty<NukeParameter[]> parameters,
+      [NotNull] RdEndpoint<string, string[]> complete
     )
     {
       if (build == null) throw new ArgumentNullException("build");
       if (targets == null) throw new ArgumentNullException("targets");
       if (parameters == null) throw new ArgumentNullException("parameters");
+      if (complete == null) throw new ArgumentNullException("complete");
       
       _Build = build;
       _Targets = targets;
       _Parameters = parameters;
+      _Complete = complete;
       _Targets.OptimizeNested = true;
       _Parameters.OptimizeNested = true;
+      _Complete.Async = true;
       BindableChildren.Add(new KeyValuePair<string, object>("build", _Build));
       BindableChildren.Add(new KeyValuePair<string, object>("targets", _Targets));
       BindableChildren.Add(new KeyValuePair<string, object>("parameters", _Parameters));
+      BindableChildren.Add(new KeyValuePair<string, object>("complete", _Complete));
     }
     //secondary constructor
     internal NukeModel (
     ) : this (
       new RdSignal<BuildInvocation>(BuildInvocation.Read, BuildInvocation.Write),
       new RdProperty<NukeTarget[]>(ReadNukeTargetArray, WriteNukeTargetArray),
-      new RdProperty<NukeParameter[]>(ReadNukeParameterArray, WriteNukeParameterArray)
+      new RdProperty<NukeParameter[]>(ReadNukeParameterArray, WriteNukeParameterArray),
+      new RdEndpoint<string, string[]>(JetBrains.Rd.Impl.Serializers.ReadString, JetBrains.Rd.Impl.Serializers.WriteString, ReadStringArray, WriteStringArray)
     ) {}
     //statics
     
     public static CtxReadDelegate<NukeTarget[]> ReadNukeTargetArray = NukeTarget.Read.Array();
     public static CtxReadDelegate<NukeParameter[]> ReadNukeParameterArray = NukeParameter.Read.Array();
+    public static CtxReadDelegate<string[]> ReadStringArray = JetBrains.Rd.Impl.Serializers.ReadString.Array();
     
     public static CtxWriteDelegate<NukeTarget[]> WriteNukeTargetArray = NukeTarget.Write.Array();
     public static CtxWriteDelegate<NukeParameter[]> WriteNukeParameterArray = NukeParameter.Write.Array();
+    public static CtxWriteDelegate<string[]> WriteStringArray = JetBrains.Rd.Impl.Serializers.WriteString.Array();
     
-    protected override long SerializationHash => 4328651711297058255L;
+    protected override long SerializationHash => -6243300511775699317L;
     
     protected override Action<ISerializers> Register => RegisterDeclaredTypesSerializers;
     public static void RegisterDeclaredTypesSerializers(ISerializers serializers)
@@ -95,6 +105,7 @@ namespace ReSharper.Nuke.Rider
         printer.Print("build = "); _Build.PrintEx(printer); printer.Println();
         printer.Print("targets = "); _Targets.PrintEx(printer); printer.Println();
         printer.Print("parameters = "); _Parameters.PrintEx(printer); printer.Println();
+        printer.Print("complete = "); _Complete.PrintEx(printer); printer.Println();
       }
       printer.Print(")");
     }

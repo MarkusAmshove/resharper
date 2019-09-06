@@ -10,6 +10,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <configurationType implementation="com.jetbrains.rider.plugins.nuke.NukeBuildTargetConfigurationType"/>
+    <runAnything.executionProvider implementation="com.jetbrains.rider.plugins.nuke.NukeRunAnythingProvider" />
+    <runAnything.helpGroup implementation="com.jetbrains.rider.plugins.nuke.NukeRunAnythingHelpGroup" />
   </extensions>
   <project-components>
     <component>

@@ -16,7 +16,8 @@ import kotlin.reflect.KClass
 class NukeModel private constructor(
     private val _build: RdSignal<BuildInvocation>,
     private val _targets: RdOptionalProperty<Array<NukeTarget>>,
-    private val _parameters: RdOptionalProperty<Array<NukeParameter>>
+    private val _parameters: RdOptionalProperty<Array<NukeParameter>>,
+    private val _complete: RdCall<String, Array<String>>
 ) : RdExtBase() {
     //companion
     
@@ -32,8 +33,9 @@ class NukeModel private constructor(
         
         private val __NukeTargetArraySerializer = NukeTarget.array()
         private val __NukeParameterArraySerializer = NukeParameter.array()
+        private val __StringArraySerializer = FrameworkMarshallers.String.array()
         
-        const val serializationHash = 4328651711297058255L
+        const val serializationHash = -6243300511775699317L
     }
     override val serializersOwner: ISerializersOwner get() = NukeModel
     override val serializationHash: Long get() = NukeModel.serializationHash
@@ -42,6 +44,7 @@ class NukeModel private constructor(
     val build: ISignal<BuildInvocation> get() = _build
     val targets: IOptProperty<Array<NukeTarget>> get() = _targets
     val parameters: IOptProperty<Array<NukeParameter>> get() = _parameters
+    val complete: IRdCall<String, Array<String>> get() = _complete
     //initializer
     init {
         _targets.optimizeNested = true
@@ -49,9 +52,14 @@ class NukeModel private constructor(
     }
     
     init {
+        _complete.async = true
+    }
+    
+    init {
         bindableChildren.add("build" to _build)
         bindableChildren.add("targets" to _targets)
         bindableChildren.add("parameters" to _parameters)
+        bindableChildren.add("complete" to _complete)
     }
     
     //secondary constructor
@@ -59,7 +67,8 @@ class NukeModel private constructor(
     ) : this(
         RdSignal<BuildInvocation>(BuildInvocation),
         RdOptionalProperty<Array<NukeTarget>>(__NukeTargetArraySerializer),
-        RdOptionalProperty<Array<NukeParameter>>(__NukeParameterArraySerializer)
+        RdOptionalProperty<Array<NukeParameter>>(__NukeParameterArraySerializer),
+        RdCall<String, Array<String>>(FrameworkMarshallers.String, __StringArraySerializer)
     )
     
     //equals trait
@@ -71,6 +80,7 @@ class NukeModel private constructor(
             print("build = "); _build.print(printer); println()
             print("targets = "); _targets.print(printer); println()
             print("parameters = "); _parameters.print(printer); println()
+            print("complete = "); _complete.print(printer); println()
         }
         printer.print(")")
     }
