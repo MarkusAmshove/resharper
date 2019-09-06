@@ -83,17 +83,13 @@ namespace ReSharper.Nuke.GutterMarks
             var project = textControl.Document.GetPsiSourceFile(solution)?.GetProject();
             var propertyDeclaration = _myElement as IPropertyDeclaration;
             var property = propertyDeclaration?.DeclaredElement;
-
-            if (property == null) return EmptyList<BulbMenuItem>.Enumerable;
+            if (property == null)
+                return EmptyList<BulbMenuItem>.Enumerable;
 
             var propertyName = propertyDeclaration.DeclaredName;
-
-            if (property.IsNukeTargetProperty())
-            {
-                return CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl);
-            }
-
-            return EmptyList<BulbMenuItem>.Enumerable;
+            return property.GetNukeTarget() != null
+                ? CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl)
+                : EmptyList<BulbMenuItem>.Enumerable;
         }
 
         #region IHighlighting

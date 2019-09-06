@@ -75,8 +75,9 @@ namespace ReSharper.Nuke.Actions
 
             var items = buildClasses.SelectMany(x => x.GetMembers())
                 .OfType<IProperty>()
-                .Where(x => x.IsNukeTargetProperty())
-                .SelectMany(x => NukeTargetMarkOnGutter.CreateRunTargetMenu(x.GetDeclarations().First().GetProject(),
+                .Where(x => x.GetNukeTarget() != null)
+                .SelectMany(x => NukeTargetMarkOnGutter.CreateRunTargetMenu(
+                    x.GetDeclarations().First().GetProject(),
                     x.ShortName,
                     gutterMarkAnchor: null,
                     solution,

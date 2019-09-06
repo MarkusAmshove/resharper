@@ -19,7 +19,7 @@ namespace ReSharper.Nuke.GutterMarks
             if (data.GetDaemonProcessKind() != DaemonProcessKind.VISIBLE_DOCUMENT)
                 return;
 
-            if (!element.DeclaredElement.IsNukeTargetProperty())
+            if (element.DeclaredElement.GetNukeTarget() == null)
                 return;
 
             var documentRange = element.GetDocumentRange();
