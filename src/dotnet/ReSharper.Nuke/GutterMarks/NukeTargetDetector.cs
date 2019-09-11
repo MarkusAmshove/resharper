@@ -8,7 +8,6 @@ using JetBrains.ReSharper.Daemon.Stages.Dispatcher;
 using JetBrains.ReSharper.Feature.Services.Daemon;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
-using ReSharper.Nuke.Utility;
 
 namespace ReSharper.Nuke.GutterMarks
 {
@@ -20,7 +19,7 @@ namespace ReSharper.Nuke.GutterMarks
             if (data.GetDaemonProcessKind() != DaemonProcessKind.VISIBLE_DOCUMENT)
                 return;
 
-            if (!element.DeclaredElement.IsNukeBuildTarget())
+            if (!element.DeclaredElement.IsNukeTargetProperty())
                 return;
 
             var documentRange = element.GetDocumentRange();

@@ -20,7 +20,6 @@ using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.TextControl;
 using JetBrains.Util;
-using ReSharper.Nuke.Utility;
 
 namespace ReSharper.Nuke.QuickFixes
 {

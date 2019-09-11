@@ -16,6 +16,9 @@
   
   <ItemGroup>
     <PackageReference Include="JetBrains.Rider.SDK" Version="$(SdkVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Nuke.Common" Version="0.22.0-alpha0048" />
+
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>

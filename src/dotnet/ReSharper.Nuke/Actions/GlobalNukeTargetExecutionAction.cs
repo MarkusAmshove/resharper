@@ -21,9 +21,7 @@ using JetBrains.ReSharper.Psi.Files;
 using JetBrains.ReSharper.Psi.Search;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.TextControl.DataContext;
-using JetBrains.Util;
 using ReSharper.Nuke.GutterMarks;
-using ReSharper.Nuke.Utility;
 
 namespace ReSharper.Nuke.Actions
 {
@@ -77,7 +75,7 @@ namespace ReSharper.Nuke.Actions
 
             var items = buildClasses.SelectMany(x => x.GetMembers())
                 .OfType<IProperty>()
-                .Where(x => x.IsNukeBuildTarget())
+                .Where(x => x.IsNukeTargetProperty())
                 .SelectMany(x => NukeTargetMarkOnGutter.CreateRunTargetMenu(x.GetDeclarations().First().GetProject(),
                     x.ShortName,
                     gutterMarkAnchor: null,

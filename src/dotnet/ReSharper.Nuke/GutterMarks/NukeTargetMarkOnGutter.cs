@@ -20,7 +20,6 @@ using JetBrains.Util;
 using ReSharper.Nuke.Actions;
 using ReSharper.Nuke.GutterMarks;
 using ReSharper.Nuke.Resources;
-using ReSharper.Nuke.Utility;
 
 [assembly: RegisterConfigurableHighlightingsGroup(NukeTargetMarkOnGutter.Nuke, "Nuke")]
 
@@ -89,7 +88,7 @@ namespace ReSharper.Nuke.GutterMarks
 
             var propertyName = propertyDeclaration.DeclaredName;
 
-            if (property.IsNukeBuildTarget())
+            if (property.IsNukeTargetProperty())
             {
                 return CreateRunTargetMenu(project, propertyName, gutterMarkAnchor, solution, textControl);
             }
