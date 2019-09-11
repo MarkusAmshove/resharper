@@ -1,4 +1,4 @@
-// Copyright Sebastian Karasek, Matthias Koch 2018.
+// Copyright 2019 Maintainers of NUKE.
 // Distributed under the MIT License.
 // https://github.com/nuke-build/resharper/blob/master/LICENSE
 
@@ -33,7 +33,7 @@ namespace ReSharper.Nuke.Rider
         private readonly ConcurrentDictionary<IProjectFile, TextRange> _myChangedRanges;
         private readonly GroupingEvent _myDocumentChangedEvent;
 
-        public ChangedTypeElementsProvider (
+        public ChangedTypeElementsProvider(
             Lifetime lifetime,
             IShellLocks shellLocks,
             ChangeManager changeManager,
@@ -59,7 +59,7 @@ namespace ReSharper.Nuke.Rider
 
         public ISignal<IReadOnlyCollection<ITypeElement>> TypeElementsChanged { get; }
 
-        private void OnChange (ChangeEventArgs e)
+        private void OnChange(ChangeEventArgs e)
         {
             var change = e.ChangeMap.GetChange<ProjectFileDocumentChange>(_myDocumentManager.ChangeProvider);
             if (change == null)
@@ -74,7 +74,7 @@ namespace ReSharper.Nuke.Rider
             _myDocumentChangedEvent.FireIncoming();
         }
 
-        private void OnProcessChangesEx ()
+        private void OnProcessChangesEx()
         {
             using (_myShellLocks.UsingReadLock())
             {
@@ -88,7 +88,7 @@ namespace ReSharper.Nuke.Rider
             }
         }
 
-        private void Invalidate ()
+        private void Invalidate()
         {
             var changes = GetChanges();
 
@@ -117,7 +117,7 @@ namespace ReSharper.Nuke.Rider
             }
         }
 
-        private KeyValuePair<IProjectFile, TextRange>[] GetChanges ()
+        private KeyValuePair<IProjectFile, TextRange>[] GetChanges()
         {
             // TODO: try-finally?
             KeyValuePair<IProjectFile, TextRange>[] changes;
@@ -126,10 +126,11 @@ namespace ReSharper.Nuke.Rider
                 changes = _myChangedRanges.Where(x => x.Key.IsValid() && x.Value.IsValid).ToArray();
                 _myChangedRanges.Clear();
             }
+
             return changes;
         }
 
-        private void ReAddChanges (KeyValuePair<IProjectFile, TextRange>[] changes)
+        private void ReAddChanges(KeyValuePair<IProjectFile, TextRange>[] changes)
         {
             lock (_myChangedRanges)
             {

@@ -1,4 +1,4 @@
-﻿// Copyright Sebastian Karasek, Matthias Koch 2018.
+﻿// Copyright 2019 Maintainers of NUKE.
 // Distributed under the MIT License.
 // https://github.com/nuke-build/resharper/blob/master/LICENSE
 
@@ -70,7 +70,8 @@ namespace ReSharper.Nuke.QuickFixes
         {
             //Todo cache?
             var project = _error.Reference.GetTreeNode().GetProject();
-            if (project == null || !project.IsNukeProject()) return false;
+            if (project == null || !project.IsNukeProject())
+                return false;
             var psiService = _error.Reference.GetTreeNode().GetPsiServices();
             var symbolScope = psiService.Symbols.GetSymbolScope(LibrarySymbolScope.REFERENCED, caseSensitive: false);
 

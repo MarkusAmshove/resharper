@@ -1,4 +1,4 @@
-// Copyright Sebastian Karasek, Matthias Koch 2018.
+// Copyright 2019 Maintainers of NUKE.
 // Distributed under the MIT License.
 // https://github.com/nuke-build/resharper/blob/master/LICENSE
 
@@ -21,6 +21,7 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 #if RIDER
 using ReSharper.Nuke.Rider;
+
 #endif
 
 namespace ReSharper.Nuke
@@ -171,7 +172,7 @@ namespace ReSharper.Nuke
         }
     }
 
-    #if RESHARPER
+#if RESHARPER
     public class NukeParameter
     {
         public NukeParameter(string name, string description, string defaultValue)
@@ -217,5 +218,5 @@ namespace ReSharper.Nuke
         public string[] Triggers { get; }
         public string[] TriggeredBy { get; }
     }
-    #endif
+#endif
 }

@@ -1,4 +1,4 @@
-// Copyright Sebastian Karasek, Matthias Koch 2018.
+// Copyright 2019 Maintainers of NUKE.
 // Distributed under the MIT License.
 // https://github.com/nuke-build/resharper/blob/master/LICENSE
 

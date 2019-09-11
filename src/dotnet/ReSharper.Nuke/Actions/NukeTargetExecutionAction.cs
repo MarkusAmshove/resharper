@@ -1,4 +1,4 @@
-﻿// Copyright Sebastian Karasek, Matthias Koch 2018.
+﻿// Copyright 2019 Maintainers of NUKE.
 // Distributed under the MIT License.
 // https://github.com/nuke-build/resharper/blob/master/LICENSE
 
@@ -17,6 +17,7 @@ using JetBrains.VsIntegration.Interop;
 #elif RIDER
 using JetBrains.ReSharper.Host.Features;
 using ReSharper.Nuke.Rider;
+
 #endif
 
 namespace ReSharper.Nuke.Actions
@@ -42,7 +43,8 @@ namespace ReSharper.Nuke.Actions
             return textControl =>
             {
                 var project = solution.FindProjectByProjectFilePath(FileSystemPath.Parse(_projectPath));
-                if (project == null) return;
+                if (project == null)
+                    return;
 
 #if RESHARPER
                 var runConfig = CreateRunConfig(solution, project);
